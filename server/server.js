@@ -21,6 +21,28 @@ io.on('connection', (socket) => {
     //socket argument je slican socket-u sa front-end koji nam stize
     console.log('New user connected');
 
+    // Example
+    // socket.emit('newEmail', {
+    //     from: 'mike@examole.com',
+    //     text: 'Hey. What is going on.',
+    //     createAt: 123
+    // });
+
+    // Example
+    // socket.on('createEmail',  (newEmail) => {
+    //     console.log(newEmail);
+    // });
+
+    socket.emit('newMessage', {
+        from: 'mike',
+        text: 'Hey. Can you meet up at 6.',
+        createdAt: Date.now()
+    });
+
+    socket.on('createMessage',  (newEmail) => {
+        console.log(newEmail);
+    });
+
     //pandam kao disconnect na klijentu
     socket.on('disconnect', (socket) => {
         //socket argument je slican socket-u sa front-end koji nam stize

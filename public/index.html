@@ -8,21 +8,6 @@
             Wellcome to the chat app
         </p>
         <script src="/socket.io/socket.io.js"></script>
-        <script>
-            var socket = io(); //pravimo request sa klijenta ka serveru
-            //socket nam omogucava da slusamo request sa servera, kao i da saljemo request ka serveru
-
-            //bult in event connect, je pandam connection sa servera
-            socket.on('connect', () => {
-                //i nemamo socket argument jer ga vecimamo gore definisan
-                console.log('Connected to server');
-            });
-
-            //Isto bult in event
-            //Ispalice se kada konkcije padne, ako server padane
-            socket.on('disconnect', () => {
-                console.log('Disconnect from server');
-            });
-        </script>
+        <script src="/js/index.js"></script>
     </body>
 </html>
