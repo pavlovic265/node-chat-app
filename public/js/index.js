@@ -12,10 +12,6 @@ socket.on('connect', function () {
     //     text: 'Hey. This is Marko.'
     // });
 
-    socket.emit('createMessage', {
-        from: 'jen',
-        text: 'Hey. Mike wonts to meet up at 6.'
-    });
 });
 
 //Isto bult in event

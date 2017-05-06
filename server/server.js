@@ -33,14 +33,12 @@ io.on('connection', (socket) => {
     //     console.log(newEmail);
     // });
 
-    socket.emit('newMessage', {
-        from: 'mike',
-        text: 'Hey. Can you meet up at 6.',
-        createdAt: Date.now()
-    });
-
-    socket.on('createMessage',  (newEmail) => {
-        console.log(newEmail);
+    socket.on('createMessage',  (message) => {
+        io.emit('newMessage', {
+            from: message.from,
+            text: message.text,
+            createdAt: new Date().getTime()
+        });
     });
 
     //pandam kao disconnect na klijentu
