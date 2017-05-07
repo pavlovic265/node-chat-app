@@ -3,7 +3,7 @@ const http = require('http');
 const path = require('path');
 const socketIO = require('socket.io');
 
-const {generateMessage} = require('./utils/message')
+const {generateMessage, generateLocationMessage} = require('./utils/message')
 const publicPath = path.join(__dirname, '..', 'public');
 const port = process.env.PORT || 3000;
 // console.log(__dirname + '/../public');
@@ -50,7 +50,11 @@ io.on('connection', (socket) => {
         // });
     });
 
-    //pandam kao disconnect na klijentu
+    socket.on('createLocationMessage', (cords) => {
+        io.emit('newLocationMessage', generateLocationMessage('Admin', cords.latitude, cords.longitude));
+    });
+
+    //pandam kao disconnect na klijentu 
     socket.on('disconnect', (socket) => {
         //socket argument je slican socket-u sa front-end koji nam stize
         console.log('New user disconnect');
