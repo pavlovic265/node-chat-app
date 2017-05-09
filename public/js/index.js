@@ -1,6 +1,22 @@
 var socket = io(); //pravimo request sa klijenta ka serveru
 //socket nam omogucava da slusamo request sa servera, kao i da saljemo request ka serveru
 
+function scrollToBottom() {
+    //Selectors
+    var messages = $('#messages');
+    var newMessage = messages.children('li:last-child');
+    //Heights
+    var clientHeight = messages.prop('clientHeight'); // ovo nam omogucava za cross borwser, da uvek renderuje isto
+    var scrollTop = messages.prop('scrollTop');
+    var scrollHeight = messages.prop('scrollHeight');
+    var newMessageheight = newMessage.innerHeight();
+    var lastMessageheight = newMessage.prev().innerHeight();
+
+    if((clientHeight + scrollTop + newMessageheight + lastMessageheight) >= scrollHeight) {
+        messages.scrollTop(scrollHeight);
+    }
+}
+
 //bult in event connect, je pandam connection sa servera
 socket.on('connect', function () {
     //i nemamo socket argument jer ga vecimamo gore definisan
@@ -38,6 +54,7 @@ socket.on('newMessage',  (message) => {
         formatedTime: formatedTime
     });
     $('#messages').append(html);
+    scrollToBottom();
 });
 
 socket.on('newLocationMessage',  (message) => {
@@ -56,6 +73,7 @@ socket.on('newLocationMessage',  (message) => {
         formatedTime: formatedTime
     });
     $('#messages').append(html);
+    scrollToBottom();
 });
 
 
@@ -75,7 +93,7 @@ $('#message-form').on('submit', function(e){
         text: messageTextBox.val()
     }, function() {
         messageTextBox.val('');
-        console.log('Done')
+        // console.log('Done')
     });
 });
 
