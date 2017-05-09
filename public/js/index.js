@@ -26,16 +26,18 @@ socket.on('disconnect', function () {
 // });
 
 socket.on('newMessage',  (message) => {
+    var formatedTime = moment(message.createdAt).format('h:mm a');
     var li = $('<li></li>');
-    li.text(`${message.from}: ${message.text}`)
+    li.text(`${message.from} ${formatedTime}: ${message.text}`)
     $('#messages').append(li);
     console.log(message);
 });
 
 socket.on('newLocationMessage',  (message) => {
+    var formatedTime = moment(message.createdAt).format('h:mm a');
     var li = $('<li></li>');
     var a = $('<a target="_blank">My current location</a>');
-    li.text(`${message.from}: `);
+    li.text(`${message.from} ${formatedTime}: `);
     a.attr('href', message.url);
     li.append(a);
     $('#messages').append(li);
@@ -53,6 +55,7 @@ socket.on('newLocationMessage',  (message) => {
 $('#message-form').on('submit', function(e){
     e.preventDefault();
     var messageTextBox =  $('[name=message]');
+    if('' === messageTextBox.val().trim()) return;
     socket.emit('createMessage', {
         from: 'User',
         text: messageTextBox.val()
