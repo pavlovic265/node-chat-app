@@ -27,7 +27,15 @@ socket.on('connect', function () {
     //     to: 'jen@examile.com',
     //     text: 'Hey. This is Marko.'
     // });
-
+    var params = $.deparam(window.location.search);
+    socket.emit('join', params, function(err){
+        if(err) {
+            alert(err);
+            window.location.href = '/';
+        } else {
+            console.log('No error');
+        }
+    });
 });
 
 //Isto bult in event
@@ -40,6 +48,14 @@ socket.on('disconnect', function () {
 // socket.on('newEmail', function (email) {
 //     console.log(email);
 // });
+
+socket.on('updateUserList', function(users){
+    var ol = $('<ol></ol>');
+    users.forEach(function(user){
+        ol.append($('<li></li>').text(user));
+    });
+    $('#users').html(ol);
+});
 
 socket.on('newMessage',  (message) => {
     var formatedTime = moment(message.createdAt).format('h:mm a');
