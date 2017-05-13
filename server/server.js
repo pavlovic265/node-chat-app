@@ -60,9 +60,12 @@ io.on('connection', (socket) => {
     });
 
     socket.on('createMessage',  (message, callback) => {
-        console.log(message)
-        io.emit('newMessage', generateMessage(message.from, message.text));
-        callback('This is from server.');
+        // console.log(message)
+        var user = users.getUser(socket.id);
+        if(user && isRealString(message.text)) {
+            io.to(user.room).emit('newMessage', generateMessage(user.name, message.text));
+            callback('This is from server.');
+        }
 
         // socket.broadcast.emit('newMessage', {
         //     from: message.from,
@@ -72,7 +75,10 @@ io.on('connection', (socket) => {
     });
 
     socket.on('createLocationMessage', (cords) => {
-        io.emit('newLocationMessage', generateLocationMessage('Admin', cords.latitude, cords.longitude));
+        var user = users.getUser(socket.id);
+        if(user) {
+            io.to(user.room).emit('newLocationMessage', generateLocationMessage(user.name, cords.latitude, cords.longitude));
+        }
     });
 
     //pandam kao disconnect na klijentu 
